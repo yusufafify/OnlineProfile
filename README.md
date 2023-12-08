@@ -5,7 +5,7 @@
 ### make sure you are in the server file directory and connected to your virtual enviroment
 1- flask<br/>2- flask_cors<br/>3- psycopg2<br/>4- configparser 
 
-## Create a .ini file and put the following
+## Create an env.ini file and put the following
 [Database_info]<br/>dataBasePassword= your data base password<br/>dataBaseName= your database name your working on 
 
 
