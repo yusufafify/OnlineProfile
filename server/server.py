@@ -53,7 +53,7 @@ def return_home():
         
 
 #Function to create an api Post request to register and commit data entered to the database
-@app.route("/api/register", methods=['GET', 'POST'])
+@app.route("/api/register", methods=['POST'])
 def register_user():
 
     try:
