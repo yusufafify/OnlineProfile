@@ -6,11 +6,7 @@
 1- flask<br/>2- flask_cors<br/>3- psycopg2<br/>4- configparser 
 
 ## Create a .ini file and put the following
-[Database_info] 
-
-dataBasePassword= your data base password 
-
-dataBaseName= your database name your working on 
+[Database_info]<br/>dataBasePassword= your data base password<br/>dataBaseName= your database name your working on 
 
 
 #For the Front End
