@@ -2,9 +2,13 @@ from flask import Flask, jsonify, request,session
 from flask_cors import CORS
 import psycopg2
 import psycopg2.extras
+from configparser import ConfigParser
 # App instance
 app = Flask(__name__)
 CORS(app)
+config =ConfigParser()
+config.read("env.ini")
+
 
 # Initial list of people
 # only used to test the HTTP requests
@@ -13,11 +17,11 @@ people_list = ['Jack', 'Harry', 'Barry']
 
 # connecting to the data base
 database_session=psycopg2.connect(
-    database='', #enter the name of the database
+    database=config["Database_info"]["dataBaseName"], #enter the name of the database
     port=5432, #Enter the port your database connect to
     host='localhost', 
     user='postgres',
-    password= '' #Enter the password for your postgres
+    password= config["Database_info"]["dataBasePassword"] #Enter the password for your postgres
 )
 
 #creating a session for the database access

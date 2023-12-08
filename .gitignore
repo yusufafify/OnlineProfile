@@ -36,3 +36,4 @@
 /client/next-env.d.ts
 
 /server/.venv
+/server/env.ini
