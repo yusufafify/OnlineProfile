@@ -3,13 +3,7 @@
 #For the server (BAckend)
 ##Important libraries must be installed in your Virtual Enviroment
 ### make sure you are in the server file directory and connected to your virtual enviroment
-1- flask
-
-2- flask_cors 
-
-3- psycopg2 
-
-4- configparser 
+1- flask\n2- flask_cors\n3- psycopg2\n4- configparser 
 
 ## Create a .ini file and put the following
 [Database_info] 
