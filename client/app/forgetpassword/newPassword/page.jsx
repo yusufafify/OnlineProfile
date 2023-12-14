@@ -1,15 +1,13 @@
 "use client";
 
-
 import { useEffect, useState } from "react";
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
 
-
 function NewPassword() {
   const searchParams = useSearchParams();
-  const router=useRouter()
+  const router = useRouter();
   const userEmail = searchParams.get("email");
   const userId = searchParams.get("id");
   const [formData, setFormData] = useState({
@@ -83,23 +81,25 @@ function NewPassword() {
       console.log("The two passwords are not the same");
     }
     Swal.fire({
-      title: `${flag === true ? 'Success' : 'Error'}`,
-      text: `${flag === true ? 'Password reset successfully' : 'Two Passwords are not the same'}`,
-      icon: `${flag ? `success`:`error`}`,
+      title: `${flag === true ? "Success" : "Error"}`,
+      text: `${
+        flag === true
+          ? "Password reset successfully"
+          : "Two Passwords are not the same"
+      }`,
+      icon: `${flag ? `success` : `error`}`,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: `${flag ? `Go Back to Log-in page`:`Try again`}`
+      confirmButtonText: `${flag ? `Go Back to Log-in page` : `Try again`}`,
     }).then((result) => {
       if (result.isConfirmed && flag) {
         router.push(`/sign-in`);
       }
     });
-
   };
 
   return (
     <>
-
       <div
         className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8"
         style={{ width: "100%" }}
