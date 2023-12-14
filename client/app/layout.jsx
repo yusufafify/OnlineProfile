@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import Nav from "../components/Nav"
-import Provider from "../components/Provider";
+import { ReduxProvider } from "@components/ReduxProvider";
 
 export const metadata = {
   title: "Online Profile",
@@ -16,15 +16,16 @@ function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Provider>
+      <ReduxProvider>
           <div className="main">
             <div className="gradient" />
           </div>
           <main className="app">
           <Nav />
+          
             {children}
           </main>
-        </Provider>
+          </ReduxProvider>
       </body>
     </html>
   );

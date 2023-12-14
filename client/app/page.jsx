@@ -1,5 +1,4 @@
 import React from "react";
-
 function Home() {
   return (
     <section className="w-full flex-center flex-col">
@@ -15,6 +14,7 @@ function Home() {
         that speaks volumes about you. Share feeds, connect with others, and let
         the world see the incredible person you are.
       </p>
+
     </section>
   );
 }

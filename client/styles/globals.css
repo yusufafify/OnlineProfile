@@ -174,3 +174,50 @@
   @apply flex justify-between items-center;
 }
 
+
+
+@keyframes slideInOut {
+  0% {
+    transform: translateX(30%);
+  }
+  100%{
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInOutbtn {
+  0% {
+    transform: translateX(55%);
+  }
+  100%{
+    transform: translateX(0);
+  }
+}
+
+
+@keyframes slideUp {
+  0%{
+    transform: translateY(100%);
+  }
+  100%{
+    transform: translateY(0%);
+  }
+}
+
+.continueBtnSlide{
+  animation: slideInOutbtn 1.2s ease-in-out; /* Adjust the duration and timing function as needed */
+
+}
+
+
+/* Apply the animation to your div */
+.emailBarSlide,.passwordBarSlide {
+  animation: slideInOut 1.2s ease-in-out; /* Adjust the duration and timing function as needed */
+}
+
+
+
+.emailBarUp{
+  animation: slideUp 0.9s ease-in-out;
+}
+

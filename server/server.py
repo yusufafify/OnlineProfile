@@ -113,11 +113,13 @@ def login():
             result = cursor.fetchone()
             if result:
                     return jsonify({
-            'message': 'Logged in successful'
+            'message': 'Logged in successful',
+            'flag':True
                 })
             else:
                     return jsonify({
-            'message': 'Wrong Email or Password'
+            'message': 'Wrong Email or Password',
+            'flag':False
                 })
     except Exception as e:
         database_session.rollback()
@@ -127,6 +129,70 @@ def login():
         }), 500
 
 
+
+
+@app.route("/api/email", methods=['POST'])
+def checkEmail():
+    try:
+        data = request.get_json()
+
+        # Retrieve data from the request
+        email = data.get('email')
+
+        if email:
+            cursor.execute('SELECT id,email FROM users WHERE email = %s', (email,))
+            result = cursor.fetchone()
+            if result:
+                return jsonify({
+                    'message': 'Valid Email',
+                    'flag':True,
+                    'result':dict(result)
+                })
+            else:
+                return jsonify({
+                    'message': 'Wrong Email',
+                    'flag':False,
+                })
+    except Exception as e:
+        database_session.rollback()
+        print(e)  # Print the error to the console for debugging
+        return jsonify({
+            'error': f'Error checking email: {str(e)}'
+        }), 500
+    
+
+@app.route("/api/newPassword", methods=['PATCH'])
+def newPassword():
+    try:
+        data = request.get_json()
+
+        # Retrieve data from the request
+        id = data.get('id')
+        new_password = data.get('newPassword')
+
+        if id and new_password:
+            # Update the user's password in the database
+            cursor.execute('UPDATE users SET password = %s WHERE id = %s', (new_password, id))
+
+            # Commit the changes
+            database_session.commit()
+
+            return jsonify({
+                'message': 'Password updated successfully',
+                'flag':True
+            })
+        else:
+            return jsonify({
+                'message': 'Invalid request format',
+                'flag':False
+            }), 400
+
+    except Exception as e:
+        database_session.rollback()
+        print(e)
+        return jsonify({
+            'error': f'Error updating password: {str(e)}'
+        }), 500
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
