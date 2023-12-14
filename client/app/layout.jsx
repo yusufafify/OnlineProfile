@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import Nav from "../components/Nav"
 import { ReduxProvider } from "@components/ReduxProvider";
+import Provider from "@components/Provider";
 
 export const metadata = {
   title: "Online Profile",

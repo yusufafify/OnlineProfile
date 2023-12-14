@@ -1,8 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Swal from "sweetalert2";
+import { useSearchParams,useRouter } from "next/navigation";
+
 
 function RegisterForm() {
+  const router = useRouter();
+
   const [names, setNames] = useState([]);
   const [newName, setNewName] = useState("");
   const [formData, setFormData] = useState({
@@ -45,6 +50,30 @@ function RegisterForm() {
           email: "",
           password: "",
         });
+        Swal.fire({
+          title: `${result.flag === true ? "Success" : "Error"}`,
+          text: `${
+            result.flag === true ? `${result.message} `: `${result.message}`
+          }`,
+          icon: `${result.flag ? `success` : `error`}`,
+          showConfirmButton: !result.flag,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: `${
+            result.flag ? `Go Back to Log-in page` : `Try again`
+          }`,
+          timer: 2000,
+        });
+        // Add the timer only if the condition is met
+        if (!result.flag) {
+          Swal.stopTimer();
+        }
+        if (result.flag) {
+          console.log(result.id);
+          setTimeout(() => {
+            router.push(`/sign-in`);
+          }, 2000);
+        }
       } else {
         const result = await response.json();
         console.error(result.error);

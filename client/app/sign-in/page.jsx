@@ -42,6 +42,11 @@ function Signin() {
 
       if (response.ok) {
         const result = await response.json();
+        console.log("Setting localStorage items:", result.id, formData.email, result.fname);
+        localStorage.setItem("loggedInEmail", formData.email);
+        localStorage.setItem("loggedInId", result.id);
+        localStorage.setItem("loggedInUserName", result.fname);
+        console.log("Items set successfully");
         console.log(result.message);
         Swal.fire({
           title: `${result.flag === true ? "Success" : "Error"}`,
@@ -67,6 +72,7 @@ function Signin() {
             router.push(`/profile?id=${result.id}&name=${result.fname}`);
           }, 2000);
         }
+
       } else {
         const result = await response.json();
         console.error(result.error);

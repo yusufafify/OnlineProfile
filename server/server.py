@@ -43,7 +43,15 @@ def register_user():
         email = data.get('email')
         gender=data.get('gender')
         password = data.get('password')
-
+        email=email.lower()
+        print(email)
+        cursor.execute('SELECT id, fname,email FROM users where email = %s', (email,))
+        result = cursor.fetchone()
+        if result:
+                    return jsonify({
+            'message': 'Registration Unsucessfull, Email Already Exists',
+            'flag':False
+        })
         print(f"Received data: {data}")
 
         # Insert the data into the database using named placeholders
@@ -56,7 +64,8 @@ def register_user():
         print("Changes committed successfully")
 
         return jsonify({
-            'message': 'Registration successful'
+            'message': 'Registration successful',
+            'flag':True
         })
     except Exception as e:
         database_session.rollback()
@@ -77,10 +86,11 @@ def login():
 
         # Retrieve data from the request
         email = data.get('email')
+        email=email.lower()
         password = data.get('password')
 
         if email:
-            cursor.execute('SELECT id, fname FROM users where email = %s and password = %s', (email, password))
+            cursor.execute('SELECT id, fname,email FROM users where email = %s and password = %s', (email, password))
             result = cursor.fetchone()
             if result:
                     print(result["id"])
@@ -88,7 +98,8 @@ def login():
             'message': 'Logged in successful',
             'flag':True,
             'id':result["id"],
-            'fname':result["fname"]
+            'fname':result["fname"],
+            'email':result["email"]
                 })
             else:
                     return jsonify({
