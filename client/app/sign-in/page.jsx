@@ -1,7 +1,7 @@
 "use client";
 
-import React, {useState } from "react";
-import { useRouter} from "next/navigation";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
@@ -62,8 +62,9 @@ function Signin() {
           Swal.stopTimer();
         }
         if (result.flag) {
+          console.log(result.id);
           setTimeout(() => {
-            router.push(`/`);
+            router.push(`/profile?id=${result.id}&name=${result.fname}`);
           }, 2000);
         }
       } else {
