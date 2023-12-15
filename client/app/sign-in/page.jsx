@@ -42,12 +42,7 @@ function Signin() {
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Setting localStorage items:", result.id, formData.email, result.fname);
-        localStorage.setItem("loggedInEmail", formData.email);
-        localStorage.setItem("loggedInId", result.id);
-        localStorage.setItem("loggedInUserName", result.fname);
-        console.log("Items set successfully");
-        console.log(result.message);
+
         Swal.fire({
           title: `${result.flag === true ? "Success" : "Error"}`,
           text: `${
@@ -68,6 +63,12 @@ function Signin() {
         }
         if (result.flag) {
           console.log(result.id);
+          console.log("Setting localStorage items:", result.id, formData.email, result.fname);
+          localStorage.setItem("loggedInEmail", formData.email);
+          localStorage.setItem("loggedInId", result.id);
+          localStorage.setItem("loggedInUserName", result.fname);
+          console.log("Items set successfully");
+          console.log(result.message);
           setTimeout(() => {
             router.push(`/profile?id=${result.id}&name=${result.fname}`);
           }, 2000);
