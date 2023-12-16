@@ -93,25 +93,55 @@ export default function UserInfo({ username, userId }) {
           <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Facebook</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <Link href={`${data[5]}`} target="_blank" className="text-blue-900">
-                <i className="fa-brands fa-facebook"></i> {FacebookUserName}
-              </Link>
+              {data[5] ? (
+                <Link
+                  href={`${data[5]}`}
+                  target="_blank"
+                  className="text-blue-900"
+                >
+                  <i className="fa-brands fa-facebook"></i> {FacebookUserName}
+                </Link>
+              ) : (
+                <p className="text-blue-900">
+                  <i className="fa-brands fa-facebook"></i> {FacebookUserName}
+                </p>
+              )}
             </dd>
           </div>
           <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Instagram</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <Link href={`${data[6]}`} target="_blank" className="text-pink-600">
-                <i className="fa-brands fa-instagram"></i> {InstagramUserName}
-              </Link>
+              {data[6] ? (
+                <Link
+                  href={`${data[6]}`}
+                  target="_blank"
+                  className="text-pink-600"
+                >
+                  <i className="fa-brands fa-instagram"></i> {InstagramUserName}
+                </Link>
+              ) : (
+                <p className="text-pink-600">
+                  <i className="fa-brands fa-instagram"></i> {InstagramUserName}
+                </p>
+              )}
             </dd>
           </div>
           <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Github</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <Link href={`${data[7]}`} target="_blank" className="text-purple-600">
-                <i className="fa-brands fa-github"></i> {gitHubUserName}
-              </Link>
+              {data[6] ? (
+                <Link
+                  href={`${data[7]}`}
+                  target="_blank"
+                  className="text-purple-600"
+                >
+                  <i className="fa-brands fa-github"></i> {gitHubUserName}
+                </Link>
+              ) : (
+                <p className="text-purple-600">
+                  <i className="fa-brands fa-github"></i> {gitHubUserName}
+                </p>
+              )}
             </dd>
           </div>
         </dl>
