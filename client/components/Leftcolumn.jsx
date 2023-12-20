@@ -32,13 +32,13 @@ const LeftColumn = ({
               alt="Profile Pic"
               width={175}
               height={175}
-              className="object-contain w-fit rounded-full"
+              className="h-48 w-48 ml-4 rounded-full"
             />
           ) : (
             <Image
               width={175}
               height={175}
-              className="object-contain w-fit rounded-full"
+              className="h-48 w-48 ml-4 rounded-full"
 
               src={
                 gender === "Male"

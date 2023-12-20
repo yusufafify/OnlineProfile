@@ -4,6 +4,8 @@ import psycopg2
 import psycopg2.extras
 import base64
 from base64 import b64decode
+from werkzeug.security import generate_password_hash,check_password_hash
+
 
 from configparser import ConfigParser
 # App instance
@@ -43,11 +45,20 @@ def register_user():
         email = data.get('email')
         gender=data.get('gender')
         password = data.get('password')
-
+        email=email.lower()
+        hashed_password= generate_password_hash(password) 
+        print(email)
+        cursor.execute('SELECT id, fname,email FROM users where email = %s', (email,))
+        result = cursor.fetchone()
+        if result:
+                    return jsonify({
+            'message': 'Registration Unsucessfull, Email Already Exists',
+            'flag':False
+        })
         print(f"Received data: {data}")
 
         # Insert the data into the database using named placeholders
-        cursor.execute('INSERT INTO users(fname,lname,email,password,gender) VALUES (%s,%s, %s ,%s,%s);', (first_name, last_name, email, password,gender))
+        cursor.execute('INSERT INTO users(fname,lname,email,password,gender) VALUES (%s,%s, %s ,%s,%s);', (first_name, last_name, email, hashed_password,gender))
         print("Query executed successfully")
 
         # Commit the changes
@@ -56,7 +67,8 @@ def register_user():
         print("Changes committed successfully")
 
         return jsonify({
-            'message': 'Registration successful'
+            'message': 'Registration successful',
+            'flag':True
         })
     except Exception as e:
         database_session.rollback()
@@ -71,29 +83,38 @@ def register_user():
 # and Check if the email and password sent are in database or not
 @app.route("/api/signin", methods=['POST'])
 def login():
-    
     try:
         data = request.get_json()
 
         # Retrieve data from the request
         email = data.get('email')
+        email = email.lower()
+        print(email)
         password = data.get('password')
-
+        print(password)
         if email:
-            cursor.execute('SELECT id, fname FROM users where email = %s and password = %s', (email, password))
+            cursor.execute('SELECT id, fname, email, password FROM users WHERE email = %s', (email,))
             result = cursor.fetchone()
             if result:
-                    print(result["id"])
+                if check_password_hash(result['password'], password):
                     return jsonify({
-            'message': 'Logged in successful',
-            'flag':True,
-            'id':result["id"],
-            'fname':result["fname"]
-                })
+                        'message': 'Logged in successful',
+                        'flag': True,
+                        'id': result["id"],
+                        'fname': result["fname"],
+                        'email': result["email"]
+                    })
+                else:
+                    print('Incorrect password')
+                    return jsonify({
+                        'message': 'Wrong Email or Password',
+                        'flag': False
+                    })
             else:
-                    return jsonify({
-            'message': 'Wrong Email or Password',
-            'flag':False
+                print('User not found')
+                return jsonify({
+                    'message': 'Wrong Email or Password',
+                    'flag': False
                 })
     except Exception as e:
         database_session.rollback()
@@ -156,7 +177,7 @@ def getUserInfo():
                 return jsonify({
                     'message': 'User found successfully',
                     'data': [result["id"], result["fname"], result["lname"], result["email"], result["pnumber"],
-                             result["instagram"], result["facebook"], result["github"], result["gender"]],
+                             result["facebook"], result["instagram"], result["github"], result["gender"]],
                     'encoded_image': encoded_image
                 })
             else:
@@ -184,10 +205,10 @@ def newPassword():
         # Retrieve data from the request
         id = data.get('id')
         new_password = data.get('newPassword')
-
+        hashed_password= generate_password_hash(new_password) 
         if id and new_password:
             # Update the user's password in the database
-            cursor.execute('UPDATE users SET password = %s WHERE id = %s', (new_password, id))
+            cursor.execute('UPDATE users SET password = %s WHERE id = %s', (hashed_password, id))
 
             # Commit the changes
             database_session.commit()
@@ -295,9 +316,8 @@ def getPost():
 
         if user_id:
             # Execute a SELECT query to retrieve all posts for the specified user_id
-            cursor.execute('SELECT * FROM post WHERE user_id = %s;', (user_id,))
+            cursor.execute('SELECT * FROM post WHERE user_id = %s ORDER BY date_time DESC;', (user_id,))
             posts = cursor.fetchall()
-
             # Optionally, you can process the retrieved posts further or return them directly
             # For now, just return a success message
             return jsonify({

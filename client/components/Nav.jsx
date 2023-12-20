@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams,useRouter } from "next/navigation";
 import UserInfo from './UserInfo';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -18,12 +18,47 @@ const Nav = () => {
   const userName = searchParams.get("name");
   const userId = searchParams.get("id");
   const [toggleDropdown, setToggleDropdown] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [storedId, setStoredId] = useState(localStorage.getItem("loggedInId"));
+  const [storedUserName, setStoredUserName] = useState(localStorage.getItem("loggedInUserName"));
+  const router = useRouter();
 
 
+
+  
+
+
+  useEffect(() => {
+    // Check if id and userName exist in localStorage
+    const idFromStorage = localStorage.getItem("loggedInId");
+    const userNameFromStorage = localStorage.getItem("loggedInUserName");
+  
+    if (idFromStorage && userNameFromStorage) {
+      setIsLoggedIn(true);
+      setStoredId((prevId) => idFromStorage); // Use the functional form
+      setStoredUserName((prevUserName) => userNameFromStorage); // Use the functional form
+    }
+  }, []);
+
+
+
+  const signOut = () => {
+    // Clear id and userName from localStorage on sign out
+    localStorage.removeItem("loggedInId");
+    localStorage.removeItem("loggedInUserName");
+    setIsLoggedIn(false);
+    setStoredId((prevId) => null); // Use the functional form
+    setStoredUserName((prevUserName) => null); // Use the functional form
+    router.push('/sign-in');
+    // Additional sign out logic if needed
+  };
+  
   const showUserInfo=()=>{
+    console.log(isLoggedIn)
+    console.log(storedId)
     setToggleDropdown(false)
     MySwal.fire({
-      html: <UserInfo userName={userName} userId={userId} />,
+      html: <UserInfo userName={userName||storedUserName} userId={userId||storedId} />,
       confirmButtonText: 'Close',
     });
   }
@@ -32,9 +67,13 @@ const Nav = () => {
   const isSignInOrSignUp = ["/sign-in", "/sign-up"].includes(pathname);
 
   const isProfile = [`/profile`,"/profile/editProfile"].includes(pathname);
+  useEffect(() => {
+    // Perform action with latest storedId
+    console.log(storedId);
+  }, [isProfile]);
   return (
     <nav className="flex-between w-full mb-16 pt-3 z-10">
-      <Link href="/" className="flex gap-2 flex-center">
+      <Link href={isLoggedIn?`/profile?id=${storedId}&name=${storedUserName}`:'/'}  className="flex gap-2 flex-center">
         <Image
           src="/assets/images/logo.png"
           alt="logo"
@@ -47,13 +86,13 @@ const Nav = () => {
 
       {/* Desktop Navigation */}
       <div className="sm:flex hidden">
-      {isProfile ? (
+      {isProfile||isLoggedIn ? (
         <div className="flex gap-3 md:gap-5">
           <button onClick={showUserInfo} className="black_btn">
             Show User Info
           </button>
 
-          <button type="button" className="outline_btn">
+          <button onClick={signOut} type="button" className="outline_btn">
             Sign Out
           </button>
         </div>
@@ -74,7 +113,7 @@ const Nav = () => {
       {/* Mobile Navigation */}
 
       <div className="sm:hidden flex relative">
-        {isProfile ? (
+        {isProfile ||isLoggedIn ? (
           <div className="flex">
             <Image
               src={
