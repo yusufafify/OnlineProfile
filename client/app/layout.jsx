@@ -1,32 +1,30 @@
 import "../styles/globals.css";
-import Nav from "../components/Nav"
+import Nav from "../components/Nav";
 import { ReduxProvider } from "@components/ReduxProvider";
 import Provider from "@components/Provider";
 
 export const metadata = {
   title: "Online Profile",
   description: "Create and Share Profile Online",
-  icons:{
-    icon:[
-      'assets/images/logo.png'
-    ]
-  }
+  icons: {
+    icon: ["assets/images/logo.png"],
+  },
 };
 
 function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-      <ReduxProvider>
+        <ReduxProvider>
           <div className="main">
             <div className="gradient" />
           </div>
           <main className="app">
-          <Nav />
-          
+            <Nav />
+
             {children}
           </main>
-          </ReduxProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

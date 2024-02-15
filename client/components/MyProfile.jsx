@@ -17,8 +17,8 @@ function MyProfile({
     return <Loading />;
   }
   return (
-    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-      <div className="mx-auto max-w-2xl rounded-3xl ring-1 ring-gray-200 lg:mx-0 lg:flex lg:max-w-none">
+    <div className="mx-auto max-w-full px-6 lg:px-8">
+      <div className="mx-auto max-w-full rounded-3xl ring-1 ring-gray-200 lg:mx-0 lg:flex lg:max-w-none">
         <LeftColumn
           userid={userid}
           firstName={firstName}
