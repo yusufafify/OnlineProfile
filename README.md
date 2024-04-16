@@ -1,5 +1,5 @@
 # OnlineProfile 
-## a FullStack web App
+##  FullStack web App
 # For the server (Backend)
 ## Important libraries must be installed in your Virtual Enviroment
 ### make sure you are in the server file directory and connected to your virtual enviroment
